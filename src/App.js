@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React sss
+          리액트 프로젝트 연동 테스트
         </a>
       </header>
     </div>
