@@ -1,0 +1,13 @@
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(100, 100, 100, 1); /* 배경 흐림 효과 */
+    z-index: 1040; /* 모달보다 아래에 위치 */
+}
+
+.modal {
+    z-index: 1050; /* 모달이 배경 위에 위치 */
+}
