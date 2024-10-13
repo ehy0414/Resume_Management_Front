@@ -14,6 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />}></Route>
         <Route path="/join" element={<JoinPage />}></Route>
+        <Route path="/board" element={<UserBoardPage />}></Route>
+        
       </Routes>
       <Footer/>
     </BrowserRouter>
