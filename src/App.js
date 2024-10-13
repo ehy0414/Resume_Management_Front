@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import "./App.css";
 import Header from "./component/include/Header";
 import HomePage from "./component/pages/HomePage";
+import Footer from './component/layout/Footer';
 
 
 function App() {
@@ -9,8 +10,9 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
+        {/* <Route path="/" element={<HomePage />}></Route> */}
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }
