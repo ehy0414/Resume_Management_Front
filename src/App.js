@@ -3,6 +3,8 @@ import "./App.css";
 import UserBoardPage from './component/pages/UserBoardPage';
 import Header from './component/layout/Header';
 import Footer from './component/layout/Footer';
+import JoinPage from './component/pages/JoinPage';
+import LoginPage from './component/pages/LoginPage';
 
 
 function App() {
@@ -10,8 +12,10 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        {/* <Route path="/" element={<HomePage />}></Route> */}
-        <Route path='/' element={<UserBoardPage />}></Route>
+        <Route path="/" element={<LoginPage />}></Route>
+        <Route path="/join" element={<JoinPage />}></Route>
+        <Route path="/board" element={<UserBoardPage />}></Route>
+        
       </Routes>
       <Footer/>
     </BrowserRouter>
