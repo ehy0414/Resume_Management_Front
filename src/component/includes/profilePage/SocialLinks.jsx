@@ -8,6 +8,8 @@ const SocialContainer = styled.div`
   overflow: hidden;
   align-items: center;
   justify-content: center;
+//   width: 1298px;
+  width: 1000000px;
   padding: 22px;
   @media (max-width: 991px) {
     max-width: 100%;
