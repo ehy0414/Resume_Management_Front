@@ -21,7 +21,7 @@ const ProfileImage = styled.img`
   aspect-ratio: 0.97;
   object-fit: contain;
   object-position: center;
-  width: 650px;
+  width: 550px;
   min-width: 450px;
   flex-grow: 1;
   @media (max-width: 991px) {

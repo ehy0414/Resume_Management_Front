@@ -4,7 +4,8 @@ import styled from "styled-components";
 const InfoContainer = styled.section`
   background-color: #f1f1f1;
   display: flex;
-  width: 650px;
+  width: 550px;
+  height: 570px;
   min-width: 450px;
   flex-direction: column;
   align-items: flex-start;
