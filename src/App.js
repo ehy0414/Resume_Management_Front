@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import "./App.css";
-import Header from "./component/include/Header";
-import HomePage from "./component/pages/HomePage";
+import Header from "./component/layout/Header";
+import LoginPage from './component/pages/LoginPage';
 import Footer from './component/layout/Footer';
 
 
@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        {/* <Route path="/" element={<HomePage />}></Route> */}
+        <Route path="/" element={<LoginPage />}></Route>
       </Routes>
       <Footer/>
     </BrowserRouter>
