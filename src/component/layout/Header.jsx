@@ -58,7 +58,7 @@ const HeaderWrapper = styled.header`
   background: #fff;
   border-bottom: 1px solid #d9d9d9;
   display: flex;
-  min-height: 142px;
+  min-height: 80px;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;

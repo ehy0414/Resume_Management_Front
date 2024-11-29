@@ -96,8 +96,9 @@ function ProfileInfo() {
         <span>San Francisco, CA 94158</span>
       </ContactInfo>
       <Website>
-        홈페이지 <br />
-        <span>www.wix.com</span>
+        Git <br />
+        <a href="https://github.com/Gunzzal" target="_blank">https://github.com/Gunzzal</a>
+
       </Website>
     </InfoContainer>
   );

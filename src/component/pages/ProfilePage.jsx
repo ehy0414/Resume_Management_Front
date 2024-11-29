@@ -16,7 +16,7 @@ function ProfilePage() {
          
             
             <section className="introduction-section">
-                <SocialLinks />
+                {/* <SocialLinks /> */}
                 <Introduction />
             </section>
             <SectionTitle title="경력사항" />
