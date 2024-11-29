@@ -66,7 +66,7 @@ const SubmitButton = styled.button`
   margin: auto 0;
   padding: 12px;
   border: 1px solid #2c2c2c;
-  color: inherit;
+  color: white;
   cursor: pointer;
   @media (max-width: 991px) {
     white-space: initial;
