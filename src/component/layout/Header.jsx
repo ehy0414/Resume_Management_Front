@@ -1,23 +1,28 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
-const navigationItems = [
-  { path: "/resume", text: "이력서보기" },
-  { path: "/profile", text: "개인페이지" },
-  { path: "/contact", text: "Contact" },
-];
-
-const authButtons = [
-  { variant: "secondary", text: "Sign in" },
-  { variant: "primary", text: "Register" },
-];
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigationItems = [
+    { path: "/resume", text: "이력서보기" },
+    { path: "/profile", text: "개인페이지" },
+    { path: "/contact", text: "Contact" },
+  ];
+  
+  const authButtons = [
+    { variant: "secondary", text: "Sign in", path:"/"},
+    { variant: "primary", text: "Register", path:"/join" },
+  ];
+
+  const navigate = useNavigate();
+
   return (
     <HeaderWrapper>
       <LogoContainer to="/">
-        <LogoImage alt="Home" />
+        <LogoImage  alt="Home"
+                    onClick={() => {
+                      navigate("/home");
+                    }} />
       </LogoContainer>
       <RightSection>
         <NavList>
@@ -34,7 +39,9 @@ function Header() {
               variant={button.variant}
               role="button"
               tabIndex={0}
-              onClick={() => {}}
+              onClick={() => {
+                navigate(button.path);
+              }}
               onKeyPress={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
