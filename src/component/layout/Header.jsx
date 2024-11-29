@@ -18,11 +18,8 @@ function Header() {
 
   return (
     <HeaderWrapper>
-      <LogoContainer to="/">
-        <LogoImage  alt="Home"
-                    onClick={() => {
-                      navigate("/home");
-                    }} />
+      <LogoContainer to="/home">
+        <LogoImage  alt="Home" />
       </LogoContainer>
       <RightSection>
         <NavList>
