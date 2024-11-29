@@ -6,6 +6,7 @@ import Footer from './component/layout/Footer';
 import JoinPage from './component/pages/JoinPage';
 import LoginPage from './component/pages/LoginPage';
 import ProfilePage from './component/pages/ProfilePage';
+import ResumPage from './component/pages/ResumPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/join" element={<JoinPage />}></Route>
         <Route path="/board" element={<UserBoardPage />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route path="/resume" element={<ResumPage />}></Route>
         
       </Routes>
       <Footer/>
