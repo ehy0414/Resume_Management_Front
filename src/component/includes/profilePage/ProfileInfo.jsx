@@ -110,7 +110,7 @@ function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, ti
     updatedData.append('address', formDataState.address);
     updatedData.append('github', formDataState.github);
     updatedData.append('skill', formDataState.skill);
-    updatedData.append('title', title);
+    updatedData.append('title',  title);
     updatedData.append('content', content);
     updatedData.append('profileImage', userInfo?.profileImage);
     if (formData.imageFile) {
