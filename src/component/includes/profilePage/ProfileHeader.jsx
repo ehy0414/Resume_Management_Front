@@ -29,12 +29,12 @@ const ProfileImage = styled.img`
   }
 `;
 
-function ProfileHeader() {
+function ProfileHeader({userInfo}) {
   return (
     <Header>
             <div style={{ display: "flex", alignItems: "center" }}>
       <ProfileImage loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/cab6e67db84fe91f6a462890c56a91bcc8354bb0c33d4bb13945c19417001c1a?placeholderIfAbsent=true&apiKey=c7f1d91a917e4e2ba5370da6919a77db" alt="Profile" />
-      <ProfileInfo />
+      <ProfileInfo userInfo={userInfo}/>
 
             </div>
     </Header>

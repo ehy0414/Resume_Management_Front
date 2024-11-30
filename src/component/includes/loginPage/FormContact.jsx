@@ -34,7 +34,7 @@ function FormContact({setUserInfo}) {
       const { password, ...userInfo } = response.data; // 비밀번호 제외
       sessionStorage.setItem("userInfo", JSON.stringify(userInfo)); // 예시
       setUserInfo(userInfo); // 상태 업데이트
-      navigate("/profile");
+      navigate(`/profile/${response.data.userId}`);
     } catch (error) {
       console.error(error);
     }
