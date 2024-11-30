@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ResumeCard = ({ key, name, title, description, skill }) => {
+const ResumeCard = ({ key, name, title, content, skill, userId }) => {
   const navigate = useNavigate();
 
   return (
-    <CardContainer onClick={() => navigate(`/profile/${key}`)}>
+    <CardContainer onClick={() => navigate(`/profile/${userId}`)}>
       <ProfileImage src="/images/profileImage/example.png" alt="Profile" />
       <Name>{name}</Name>
       <Skill>기술스택 : {skill}</Skill>
-      <Description>{description}</Description>
+      <Description>{content}</Description>
     </CardContainer>
   );
 };
