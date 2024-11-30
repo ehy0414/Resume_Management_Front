@@ -1,25 +1,33 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 
-function Header() {
+function Header({userInfo, setUserInfo}) {
+  const navigate = useNavigate();
+  
   const navigationItems = [
     { path: "/resume", text: "이력서보기" },
     { path: "/profile", text: "개인페이지" },
     { path: "/contact", text: "Contact" },
   ];
-  
+
   const authButtons = [
-    { variant: "secondary", text: "Sign in", path:"/"},
-    { variant: "primary", text: "Register", path:"/join" },
+    { variant: "secondary", text: "Sign in", path: "/" },
+    { variant: "primary", text: "Register", path: "/join" },
   ];
 
-  const navigate = useNavigate();
+  const handleLogout = () => {
+    console.log(userInfo);
+    sessionStorage.removeItem("userInfo"); // 세션에서 사용자 정보 삭제
+    setUserInfo(null); // 상태 업데이트
+    navigate("/"); // 홈으로 리다이렉트
+  };
+  
 
   return (
     <HeaderWrapper>
       <LogoContainer to="/home">
-        <LogoImage  alt="Home" />
+        <LogoImage alt="Home" />
       </LogoContainer>
       <RightSection>
         <NavList>
@@ -29,25 +37,41 @@ function Header() {
             </NavItem>
           ))}
         </NavList>
+
         <AuthButtonGroup>
-          {authButtons.map((button, index) => (
+          {userInfo==null ?
+            (authButtons.map((button, index) => (
+              <AuthButton
+                key={index}
+                variant={button.variant}
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  navigate(button.path);
+                }}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                {button.text}
+              </AuthButton>
+            ))) :
             <AuthButton
-              key={index}
-              variant={button.variant}
+              variant="primary"
               role="button"
               tabIndex={0}
-              onClick={() => {
-                navigate(button.path);
-              }}
+              onClick={handleLogout}
               onKeyPress={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                 }
               }}
             >
-              {button.text}
+              Log out
             </AuthButton>
-          ))}
+          }
         </AuthButtonGroup>
       </RightSection>
     </HeaderWrapper>
