@@ -20,12 +20,13 @@ const ResumeList = (props) => {
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       {props.data.map((resume) => (
         <ResumeCard
-          key={resume.id}
+          key={resume.userId}
           name={resume.name}
           title={resume.title}
-          description={resume.description}
+          content={resume.content}
           onViewResume={() => alert(`${resume.name}의 이력서 보기`)} // 이력서 보기 기능
           skill = {resume.skill}
+          userId={resume.userId}
         />
       ))}
     </div>

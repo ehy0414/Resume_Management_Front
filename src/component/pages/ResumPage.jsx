@@ -33,6 +33,7 @@ function ResumPage() {
     try {
       const response = await api.get("resume/index");
       setResume(response.data); // 전체 데이터
+      console.log(response.data)
       setFilteredResume(response.data); // 초기에는 필터링 없이 전체 데이터
     } catch (err) {
       console.log(err);
@@ -53,6 +54,7 @@ function ResumPage() {
   // 페이지 번호 계산
   const totalPages = Math.ceil(filteredResume.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
 
   return (
     <Wrapper>
