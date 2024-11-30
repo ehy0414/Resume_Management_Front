@@ -65,7 +65,7 @@ function ProfilePage() {
         <Introduction userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} setTitle={setTitle} setContent={setContent}/>
       </section>
       <SectionTitle title="경력사항" />
-      <ContentSection />
+      <ContentSection isEditing={isEditing}/>
       <SectionTitle title="학력사항" darkBackground />
       <ContentSection darkBackground />
       {/* <SectionTitle title="기타 이력사항" /> */}
