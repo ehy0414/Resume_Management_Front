@@ -1,44 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import InputField from "./InputField";
-import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 function FormContact() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  
-  const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+      });
+      
+      const navigate = useNavigate();
+    
+      const inputFields = [
+        { key: "name", label: "이름", type: "text", holder: "이름을 입력해주세요" },
+        { key: "email", label: "아이디", type: "email", holder: "아이디를 입력해주세요" },
+        { key: "password", label: "비밀번호", type: "password", holder: "비밀번호를 입력해주세요" },
+        { key: "confirmPassword", label: "비밀번호 재입력", type: "password", holder: "비밀번호를 재입력해주세요" },
+      ];
 
-  const inputFields = [
-    { key: "email", label: "아이디", type: "email", holder: "아이디를 입력해주세요" },
-    { key: "password", label: "비밀번호", type: "password", holder: "비밀번호를 입력해주세요" },
-  ];
+      const handleChange = (key, value) => {
+        setFormData((prev) => ({ ...prev, [key]: value }));
+      };
 
-  const handleChange = (key, value) => {
-    setUser((prev) => ({ ...prev, [key]: value }));
-  };
+      const handleSubmit = async () => {
+        try {
+          const response = await api.post("/users/join", {
+            email: formData.email,
+            password: formData.password,
+            name: formData.name
+          });
+          alert("회원가입 성공!");
+          alert("로그인 페이지로 넘어갑니다");
+          navigate("/");
+          console.log(response.data);
+        } catch (error) {
+            if(error.status === 409) {
+                alert(error.response.data.essMsg);
+            }
+          console.error(error);
+        }
+      };
 
-  const handleSubmit = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('email', user.email);
-      formData.append('password', user.password);
-      const response = await api.post("/loginProc",formData);
-      console.log(response.data)
-      alert("로그인 성공!");
-      //alert("홈페이지로 넘어갑니다");
-      //sessionStorage.setItem("userInfo", JSON.stringify(response.data)); // sessionStorage에 id를 user_id라는 key 값으로 저장
-      navigate("/profile",{state: {userData: response.data}});
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-
+      console.log(formData.email)
 
   return (
     <StyledFormContact>
@@ -48,13 +53,13 @@ function FormContact() {
           label={field.label}
           type={field.type}
           holder={field.holder}
-          value={user[field.key]}
+          value={formData[field.key]}
           onChange={(value) => handleChange(field.key, value)}
         />
       ))}
       <ButtonGroup>
         <SubmitButton type="button" onClick={handleSubmit}>
-          로그인
+          회원가입
         </SubmitButton>
       </ButtonGroup>
     </StyledFormContact>
