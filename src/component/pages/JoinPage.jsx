@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import FormContact from "../includes/loginPage/FormContact";
+import FormContact from "../includes/joinPage/FormContact";
 
 function JoinPage() {
   return (
     <StyledHeroForm>
       <Header>
-        <Title>Title</Title>
-        <Subtitle>Subtitle</Subtitle>
+        <Title>회원가입</Title>
+        <Subtitle>회원 정보 입력</Subtitle>
       </Header>
       <FormContact />
     </StyledHeroForm>
@@ -47,15 +47,15 @@ const Header = styled.header`
 
 const Title = styled.h1`
   letter-spacing: -2.16px;
-  font: var(--sds-typography-title-hero-font-weight) var(--sds-typography-title-hero-size) var(--sds-typography-title-hero-font-family);
-  @media (max-width: 991px) {
-    font-size: 40px;
-  }
+  font-size: 40px;
+  color: #2a9d8f; /* 세련된 청록색 */
+  font-weight: 700; /* 강조된 굵기 */
 `;
 
 const Subtitle = styled.h2`
   margin-top: 8px;
-  font: var(--sds-typography-subtitle-font-weight) var(--sds-typography-subtitle-size-base) var(--sds-typography-subtitle-font-family);
+  font-size: 18px; /* 적당한 크기로 조정 */
+  font-weight: 400; /* 가벼운 느낌의 굵기 */
+  color: #264653; /* 깊이감 있는 어두운 청록색 */
 `;
-
 export default JoinPage;

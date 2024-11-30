@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 function InputField({ label, type, holder, value, onChange }) {
-
   const handleInputChange = (e) => {
     onChange(e.target.value);
   };
