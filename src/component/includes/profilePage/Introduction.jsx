@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const IntroTitle = styled.h2`
@@ -8,23 +8,75 @@ const IntroTitle = styled.h2`
 
 const IntroText = styled.p`
   color: #182153;
-  text-align: center;
+  text-align: left;
   font: 400 18px/29px Inter, sans-serif;
   @media (max-width: 991px) {
     max-width: 100%;
   }
+  width: 1000px;
+  height: 1000px;
 `;
 
-function Introduction() {
+const Input = styled.input`
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%; /* 폭을 100%로 설정 */
+  height: 100px; /* 원하는 높이로 설정 */
+  margin: 8px 0;
+  padding: 12px; /* 패딩을 추가하여 내부 여백을 늘림 */
+  font-size: 16px; /* 폰트 크기 조정 (선택 사항) */
+  border: 1px solid #ccc; /* 테두리 스타일 (선택 사항) */
+  border-radius: 4px; /* 모서리 둥글게 (선택 사항) */
+  resize: vertical; /* 사용자가 세로로 크기를 조정할 수 있도록 설정 */
+`;
+
+function Introduction({ userInfo, onUpdate, isEditing, setIsEditing, formData, setTitle, setContent }) {
+  const [title, setTitleState] = useState(userInfo?.title || "");
+  const [content, setContentState] = useState(userInfo?.content || "");
+
+  useEffect(() => {
+    if (isEditing) {
+      setTitleState(userInfo?.title || "");
+      setContentState(userInfo?.content || "");
+    }
+  }, [isEditing, userInfo]);
+
+  const handleTitleChange = (e) => {
+    setTitleState(e.target.value);
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e) => {
+    setContentState(e.target.value);
+    setContent(e.target.value);
+  };
+
   return (
     <>
-      <IntroTitle>안녕하세요?</IntroTitle>
-      <IntroText>
-        *여기를 클릭해 내용을 입력하세요. 마우스로 텍스트 상자의 <br />
-        위치와 크기를 변경하고, 텍스트 에디터에서 글꼴과 색상을 <br />
-        선택해 보세요. 다양한 한글 글꼴을 사용하려면, <br />
-        글꼴 언어를 한국어로 지정하세요.
-      </IntroText>
+      {isEditing ? (
+        <>
+          <IntroTitle>
+            <Input type="text" name="title" value={title} onChange={handleTitleChange} placeholder="제목 입력" />
+          </IntroTitle>
+          <IntroText>
+            <TextArea
+              name="introText"
+              value={content}
+              onChange={handleContentChange}
+              placeholder="본문 입력"
+            />
+          </IntroText>
+        </>
+      ) : (
+        <>
+          <IntroTitle>{userInfo?.title}</IntroTitle>
+          <IntroText dangerouslySetInnerHTML={{ __html: userInfo?.content.replace(/\n/g, "<br />") }} />
+        </>
+      )}
     </>
   );
 }
