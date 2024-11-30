@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // import styled from "styled-components";
 import ProfileHeader from "../includes/profilePage/ProfileHeader";
 // import ProfileInfo from "../includes/profilePage/ProfileInfo";
@@ -6,26 +6,44 @@ import SocialLinks from "../includes/profilePage/SocialLinks";
 import Introduction from "../includes/profilePage/Introduction";
 import SectionTitle from "../includes/profilePage/SectionTitle";
 import ContentSection from "../includes/profilePage/ContentSection";
+import { useParams } from 'react-router-dom';
+import api from "../api/axios";
 
 function ProfilePage() {
-    return (
-        <main className="profile-page">
+  const { userId } = useParams();
+  const [userInfo, setUserInfo] = useState(null);
 
-        
-                <ProfileHeader />
-         
-            
-            <section className="introduction-section">
-                {/* <SocialLinks /> */}
-                <Introduction />
-            </section>
-            <SectionTitle title="경력사항" />
-            <ContentSection />
-            <SectionTitle title="학력사항" darkBackground />
-            <ContentSection darkBackground />
-            <SectionTitle title="기타 이력사항" />
-            <ContentSection />
-            <style>{`
+  const getUserAllInfo = async() => {
+    try{
+      const response = await api.get(`users/getAllInfo/${userId}`);
+      console.log(response.data);
+      setUserInfo(response.data);
+    }catch(error){ 
+      console.error();
+    }
+  }
+
+  useEffect(() => {
+    getUserAllInfo();
+  },[userId])
+  return (
+    <main className="profile-page">
+
+
+      <ProfileHeader userInfo={userInfo}/>
+
+
+      <section className="introduction-section">
+        {/* <SocialLinks /> */}
+        <Introduction />
+      </section>
+      <SectionTitle title="경력사항" />
+      <ContentSection />
+      <SectionTitle title="학력사항" darkBackground />
+      <ContentSection darkBackground />
+      <SectionTitle title="기타 이력사항" />
+      <ContentSection />
+      <style>{`
         .profile-page {
           background-color: #fff;
           display: flex;
@@ -50,8 +68,8 @@ function ProfilePage() {
           }
         }
       `}</style>
-        </main>
-    );
+    </main>
+  );
 }
 
 export default ProfilePage;

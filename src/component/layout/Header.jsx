@@ -7,7 +7,7 @@ function Header({userInfo, setUserInfo}) {
   
   const navigationItems = [
     { path: "/resume", text: "이력서보기" },
-    { path: "/profile", text: "개인페이지" },
+    { path: `/profile/${userInfo?.userId}`, text: "개인페이지" },
     { path: "/contact", text: "Contact" },
   ];
 

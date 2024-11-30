@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const InfoContainer = styled.section`
@@ -75,31 +75,102 @@ const Website = styled.div`
   }
 `;
 
-function ProfileInfo() {
+const Input = styled.input`
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+`;
+
+function ProfileInfo({ userInfo, onUpdate }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({ ...userInfo });
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdate(formData); // 업데이트 함수 호출
+    setIsEditing(false);
+  };
+
   return (
     <InfoContainer>
-      <EditButton>
+      <EditButton onClick={isEditing ? handleSubmit : handleEditClick}>
         <EditIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/93b33e933c3c66f9802c61b0ad6d40a5d5c06db07b7a1a9bcf6e86c31dc0fdb8?placeholderIfAbsent=true&apiKey=c7f1d91a917e4e2ba5370da6919a77db" alt="Edit" />
-        수정하기
+        {isEditing ? "저장하기" : "수정하기"}
       </EditButton>
-      <Name>Rachel Smith</Name>
-      <JobTitle>법률전문 컨설턴트</JobTitle>
-      <ContactInfo>
-        전화번호 <br />
-        <span>02-1234-5678</span> <br />
-        <br />
-        이메일 <br />
-        <span>info@mysite.com </span> <br />
-        <br />
-        주소 <br />
-        <span> 500 Terry Francois Street </span> <br />
-        <span>San Francisco, CA 94158</span>
-      </ContactInfo>
-      <Website>
-        Git <br />
-        <a href="https://github.com/Gunzzal" target="_blank">https://github.com/Gunzzal</a>
-
-      </Website>
+      {isEditing ? (
+        <form onSubmit={handleSubmit}>
+          <Input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="이름"
+          />
+          <Input
+            type="text"
+            name="desired_job"
+            value={formData.desired_job}
+            onChange={handleChange}
+            placeholder="희망 직무"
+          />
+          <Input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="전화번호"
+          />
+          <Input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="이메일"
+          />
+          <Input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="주소"
+          />
+          <Input
+            type="url"
+            name="github"
+            value={formData.github}
+            onChange={handleChange}
+            placeholder="GitHub 링크"
+          />
+        </form>
+      ) : (
+        <>
+          <Name>{userInfo?.name}</Name>
+          <JobTitle>{userInfo?.desired_job}</JobTitle>
+          <ContactInfo>
+            전화번호 <br />
+            <span>{userInfo?.phone}</span> <br />
+            <br />
+            이메일 <br />
+            <span>{userInfo?.email}</span> <br />
+            <br />
+            주소 <br />
+            <span>{userInfo?.address}</span> <br />
+          </ContactInfo>
+          <Website>
+            Git <br />
+            <a href={userInfo?.github} target="_blank" rel="noopener noreferrer">{userInfo?.github}</a>
+          </Website>
+        </>
+      )}
     </InfoContainer>
   );
 }
