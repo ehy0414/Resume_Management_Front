@@ -1,42 +1,74 @@
 import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-const ResumeCard = ({ name, title, description, onViewResume, skill }) => {
-  const cardStyle = {
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '16px',
-    margin: '16px',
-    width: '300px',
-    height: '300px',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-    // transition: 'transform 0.2s',
-    textAlign: 'center'
-  };
-
-  const porfilImgStyle = {
-    width: '200px',
-    height: '150px'
-  }
-
-  const nameStyle = {
-  };
-  const descriptionStyle = {
-  };
-
+const ResumeCard = ({ name, title, description, skill }) => {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={cardStyle} 
-      onClick={() => navigate('/profile')}
-    >
-      <img style={porfilImgStyle} src={"/images/profileImage/example.png"}/>
-      <h2 style={nameStyle}>{name}</h2>
-      <p>기술스택 : {skill}</p>
-      <p style={descriptionStyle}>{description}</p>
-    </div>
+    <CardContainer onClick={() => navigate('/profile')}>
+      <ProfileImage src="/images/profileImage/example.png" alt="Profile" />
+      <Name>{name}</Name>
+      <Skill>기술스택 : {skill}</Skill>
+      <Description>{description}</Description>
+    </CardContainer>
   );
 };
+
+// 카드 컨테이너 스타일
+const CardContainer = styled.div`
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px;
+  width: 300px;
+  height: 350px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);  // 마우스 오버 시 카드 상승 효과
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); // 그림자 강조
+  }
+  
+  &:active {
+    transform: translateY(0);  // 클릭 시 카드가 다시 원래 위치로 돌아옴
+  }
+`;
+
+// 프로필 이미지 스타일
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 16px;
+`;
+
+// 이름 스타일
+const Name = styled.h2`
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  margin: 10px 0;
+`;
+
+// 기술스택 스타일
+const Skill = styled.p`
+  font-size: 1rem;
+  color: #777;
+  margin: 8px 0;
+`;
+
+// 설명 스타일
+const Description = styled.p`
+  font-size: 1rem;
+  color: #555;
+  margin-top: 12px;
+  font-style: italic;
+`;
 
 export default ResumeCard;
