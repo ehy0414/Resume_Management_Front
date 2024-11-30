@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const InfoContainer = styled.section`
@@ -81,9 +81,15 @@ const Input = styled.input`
   padding: 8px;
 `;
 
-function ProfileInfo({ userInfo, onUpdate }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ ...userInfo });
+function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, title, content }) {
+  // const [isEditing, setIsEditing] = useState(false);
+  const [formDataState, setFormData] = useState({ ...userInfo });
+
+  useEffect(() => {
+    if (isEditing) {
+      setFormData({ ...userInfo }); // 수정 모드일 때 userInfo로 formData 설정
+    }
+  }, [isEditing, userInfo]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -91,14 +97,30 @@ function ProfileInfo({ userInfo, onUpdate }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formDataState, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onUpdate(formData); // 업데이트 함수 호출
+    const updatedData = new FormData();
+    updatedData.append('userId', formDataState.userId);
+    updatedData.append('name', formDataState.name);
+    updatedData.append('desiredJob', formDataState.desiredJob);
+    updatedData.append('phone', formDataState.phone);
+    updatedData.append('address', formDataState.address);
+    updatedData.append('github', formDataState.github);
+    updatedData.append('skill', formDataState.skill);
+    updatedData.append('title', title);
+    updatedData.append('content', content);
+    updatedData.append('profileImage', userInfo?.profileImage);
+    if (formData.imageFile) {
+      updatedData.append('image', formData.imageFile); // 이미지 파일 추가
+    }
+
+    await onUpdate(updatedData); // 업데이트 함수 호출
     setIsEditing(false);
   };
+
 
   return (
     <InfoContainer>
@@ -111,50 +133,57 @@ function ProfileInfo({ userInfo, onUpdate }) {
           <Input
             type="text"
             name="name"
-            value={formData.name}
+            value={formDataState.name}
             onChange={handleChange}
             placeholder="이름"
           />
           <Input
             type="text"
-            name="desired_job"
-            value={formData.desired_job}
+            name="desiredJob"
+            value={formDataState.desiredJob}
             onChange={handleChange}
             placeholder="희망 직무"
           />
           <Input
             type="text"
             name="phone"
-            value={formData.phone}
+            value={formDataState.phone}
             onChange={handleChange}
             placeholder="전화번호"
           />
-          <Input
+          {/* <Input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="이메일"
-          />
+          /> */}
           <Input
             type="text"
             name="address"
-            value={formData.address}
+            value={formDataState.address}
             onChange={handleChange}
             placeholder="주소"
           />
           <Input
             type="url"
             name="github"
-            value={formData.github}
+            value={formDataState.github}
             onChange={handleChange}
             placeholder="GitHub 링크"
+          />
+          <Input
+            type="text"
+            name="skill"
+            value={formDataState.skill}
+            onChange={handleChange}
+            placeholder="기술스택"
           />
         </form>
       ) : (
         <>
           <Name>{userInfo?.name}</Name>
-          <JobTitle>{userInfo?.desired_job}</JobTitle>
+          <JobTitle>{userInfo?.desiredJob}</JobTitle>
           <ContactInfo>
             전화번호 <br />
             <span>{userInfo?.phone}</span> <br />
@@ -164,6 +193,9 @@ function ProfileInfo({ userInfo, onUpdate }) {
             <br />
             주소 <br />
             <span>{userInfo?.address}</span> <br />
+            <br />
+            기술스택 <br />
+            <span>{userInfo?.skill}</span> <br />
           </ContactInfo>
           <Website>
             Git <br />
