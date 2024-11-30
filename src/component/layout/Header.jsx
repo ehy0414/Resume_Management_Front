@@ -13,6 +13,7 @@ function Header({userInfo, setUserInfo}) {
 
   const authButtons = [
     { variant: "secondary", text: "Sign in", path: "/" },
+    
     { variant: "primary", text: "Register", path: "/join" },
   ];
 
