@@ -15,7 +15,7 @@ function JoinPage() {
 }
 
 const StyledHeroForm = styled.main`
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* 그라데이션 배경 */
   display: flex;
   min-height: 913px;
   width: 100%;

@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ResumeCard = ({ name, title, description, skill }) => {
+const ResumeCard = ({ key, name, title, description, skill }) => {
   const navigate = useNavigate();
 
   return (
-    <CardContainer onClick={() => navigate('/profile')}>
+    <CardContainer onClick={() => navigate(`/profile/${key}`)}>
       <ProfileImage src="/images/profileImage/example.png" alt="Profile" />
       <Name>{name}</Name>
       <Skill>기술스택 : {skill}</Skill>

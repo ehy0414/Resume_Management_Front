@@ -10,7 +10,7 @@ const Footer = () => {
     <StyledFooter>
       <FooterContent>
         <FooterLogo>
-          <LogoText>개인프로젝트</LogoText>
+          <LogoText>이력서 사이트</LogoText>
           <Tagline>엄현용 & 강건한</Tagline>
         </FooterLogo>
         <FooterColumn title="제작자" items={useCases} />

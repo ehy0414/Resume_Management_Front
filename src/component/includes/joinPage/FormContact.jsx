@@ -13,12 +13,14 @@ function FormContact() {
   });
 
   const [emailError, setEmailError] = useState(""); // 이메일 오류 상태
+  const [passwordError, setPasswordError] = useState(""); // 비밀번호 오류 상태
+  const [passwordStrength, setPasswordStrength] = useState(""); // 비밀번호 강도
   const navigate = useNavigate();
 
   const inputFields = [
     { key: "name", label: "이름", type: "text", holder: "이름을 입력해주세요" },
-    { key: "email", label: "이메일", type: "email", holder: "이메일을 입력해주세요" },
-    { key: "password", label: "비밀번호", type: "password", holder: "비밀번호를 입력해주세요" },
+    { key: "email", label: "이메일", type: "email", holder: "이메일을 입력해주세요", errorMessage: emailError },
+    { key: "password", label: "비밀번호", type: "password", holder: "비밀번호를 입력해주세요", errorMessage: passwordError },
     { key: "confirmPassword", label: "비밀번호 재입력", type: "password", holder: "비밀번호를 재입력해주세요" },
   ];
 
@@ -28,6 +30,11 @@ function FormContact() {
     // 이메일 입력이 변경될 때마다 유효성 검사
     if (key === "email") {
       validateEmail(value);
+    }
+
+    // 비밀번호가 변경될 때마다 강도 검사
+    if (key === "password") {
+      validatePassword(value);
     }
   };
 
@@ -41,6 +48,22 @@ function FormContact() {
     }
   };
 
+  // 비밀번호 강도 검사 함수
+  const validatePassword = (password) => {
+    const regexWeak = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/; // 최소 6자리, 숫자 및 문자 포함
+    const regexStrong = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/; // 특수문자 포함 8자리 이상
+    if (!regexWeak.test(password)) {
+      setPasswordError("비밀번호는 최소 6자리 이상의 문자와 숫자를 포함해야 합니다.");
+      setPasswordStrength("비밀번호가 약합니다.");
+    } else if (regexStrong.test(password)) {
+      setPasswordError(""); // 강할 경우 에러 없애기
+      setPasswordStrength("비밀번호가 안전합니다.");
+    } else {
+      setPasswordError("");
+      setPasswordStrength("비밀번호가 보통입니다.");
+    }
+  };
+
   const handleSubmit = async () => {
     // 이메일 유효성 검사
     if (emailError) {
@@ -48,10 +71,10 @@ function FormContact() {
       return; // 이메일에 오류가 있으면 회원가입 진행하지 않음
     }
 
-    // 비밀번호 확인 (선택적으로 추가)
+    // 비밀번호 확인
     if (formData.password !== formData.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
-      return; // 비밀번호가 일치하지 않으면 회원가입 진행하지 않음
+      return;
     }
 
     try {
@@ -75,16 +98,18 @@ function FormContact() {
   return (
     <StyledFormContact>
       {inputFields.map((field) => (
-        <InputField
-          key={field.key}
-          label={field.label}
-          type={field.type}
-          holder={field.holder}
-          value={formData[field.key]}
-          onChange={(value) => handleChange(field.key, value)}
-        />
+        <div key={field.key}>
+          <InputField
+            label={field.label}
+            type={field.type}
+            holder={field.holder}
+            value={formData[field.key]}
+            onChange={(value) => handleChange(field.key, value)}
+          />
+          {field.errorMessage && <ErrorMessage>{field.errorMessage}</ErrorMessage>} {/* 에러 메시지 표시 */}
+        </div>
       ))}
-      {emailError && <ErrorMessage>{emailError}</ErrorMessage>} {/* 이메일 에러 메시지 표시 */}
+      {passwordStrength && <StrengthMessage>{passwordStrength}</StrengthMessage>} {/* 비밀번호 강도 메시지 */}
       <ButtonGroup>
         <SubmitButton type="button" onClick={handleSubmit}>
           회원가입
@@ -96,7 +121,7 @@ function FormContact() {
 
 const StyledFormContact = styled.form`
   border-radius: 8px;
-  background-color: #fff;
+  background: white; /* 그라데이션 배경 */
   display: flex;
   min-width: 320px;
   margin-top: 32px;
@@ -105,8 +130,15 @@ const StyledFormContact = styled.form`
   flex-direction: column;
   justify-content: start;
   padding: 24px;
-  font: var(--sds-typography-body-font-weight-regular) var(--sds-typography-body-size-medium) var(--sds-typography-body-font-family);
-  border: 1px solid #d9d9d9;
+  font-family: 'Arial', sans-serif;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
   @media (max-width: 991px) {
     white-space: initial;
     padding: 0 20px;
@@ -141,6 +173,12 @@ const SubmitButton = styled.button`
   border: 1px solid #2c2c2c;
   color: white;
   cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #444;
+  }
+
   @media (max-width: 991px) {
     white-space: initial;
   }
@@ -149,7 +187,13 @@ const SubmitButton = styled.button`
 const ErrorMessage = styled.div`
   color: red;
   font-size: 12px;
-  margin-top: 8px;
+  margin-top: -25px;
+`;
+
+const StrengthMessage = styled.div`
+  color: ${(props) => (props.children.includes("안전") ? "green" : "orange")};
+  font-size: 12px;
+  margin-top: 1px;
 `;
 
 export default FormContact;

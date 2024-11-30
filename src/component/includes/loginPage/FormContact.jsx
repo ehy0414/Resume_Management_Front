@@ -4,7 +4,7 @@ import InputField from "./InputField";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
-function FormContact({setUserInfo}) {
+function FormContact({ setUserInfo }) {
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -24,8 +24,8 @@ function FormContact({setUserInfo}) {
   const handleSubmit = async () => {
     const data = {
       email: user.email,
-      password: user.password
-    }
+      password: user.password,
+    };
     try {
       const response = await api.post("/users/login", data);
       console.log(response.data);
@@ -40,10 +40,15 @@ function FormContact({setUserInfo}) {
     }
   };
 
-
+  // Enter 키 감지
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(); // Enter 키 누르면 로그인
+    }
+  };
 
   return (
-    <StyledFormContact>
+    <StyledFormContact onKeyDown={handleKeyDown}>
       {inputFields.map((field) => (
         <InputField
           key={field.key}
