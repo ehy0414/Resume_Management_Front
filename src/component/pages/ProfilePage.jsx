@@ -12,6 +12,10 @@ import api from "../api/axios";
 function ProfilePage() {
   const { userId } = useParams();
   const [userInfo, setUserInfo] = useState(null);
+  const [formData, setFormData] = useState({ ...userInfo });
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
 
   const getUserAllInfo = async() => {
     try{
@@ -25,24 +29,47 @@ function ProfilePage() {
 
   useEffect(() => {
     getUserAllInfo();
+    setFormData({ ...userInfo });
   },[userId])
+
+  useEffect(() => {
+    setContent(userInfo?.content);
+    setTitle(userInfo?.title);
+  },[userInfo])
+ 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const onUpdate = async(formData) => {
+    console.log(formData);
+    try{
+      const response = await api.post('/users/updateAllInfo',formData);
+      getUserAllInfo();
+    }catch(error){
+      console.error(error);
+    }
+  }
+
   return (
     <main className="profile-page">
 
 
-      <ProfileHeader userInfo={userInfo}/>
+      <ProfileHeader userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} title={title} content={content}/>
 
 
       <section className="introduction-section">
         {/* <SocialLinks /> */}
-        <Introduction />
+        <Introduction userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} setTitle={setTitle} setContent={setContent}/>
       </section>
       <SectionTitle title="경력사항" />
-      <ContentSection />
+      <ContentSection isEditing={isEditing}/>
       <SectionTitle title="학력사항" darkBackground />
       <ContentSection darkBackground />
-      <SectionTitle title="기타 이력사항" />
-      <ContentSection />
+      {/* <SectionTitle title="기타 이력사항" /> */}
+      {/* <ContentSection /> */}
       <style>{`
         .profile-page {
           background-color: #fff;
