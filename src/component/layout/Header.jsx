@@ -8,13 +8,12 @@ function Header({userInfo, setUserInfo}) {
   const navigationItems = [
     { path: "/resume", text: "이력서보기" },
     { path: `/profile/${userInfo?.userId}`, text: "개인페이지" },
-    { path: "/contact", text: "Contact" },
   ];
 
   const authButtons = [
-    { variant: "secondary", text: "Sign in", path: "/" },
+    { variant: "secondary", text: "로그인", path: "/" },
     
-    { variant: "primary", text: "Register", path: "/join" },
+    { variant: "primary", text: "회원가입", path: "/join" },
   ];
 
   const handleLogout = () => {
@@ -23,12 +22,13 @@ function Header({userInfo, setUserInfo}) {
     setUserInfo(null); // 상태 업데이트
     navigate("/"); // 홈으로 리다이렉트
   };
-  
 
   return (
     <HeaderWrapper>
       <LogoContainer to="/home">
-        <LogoImage alt="Home" />
+        <LogoImage alt="Home" 
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6adb87bcda0e0209efe8943f42ac571aa849fac731b86711b7732f9cf97ec1c2?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c"
+        />
       </LogoContainer>
       <RightSection>
         <NavList>
@@ -98,11 +98,33 @@ const LogoContainer = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
+
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:focus-within {
+    outline: 2px solid #4A90E2;
+    outline-offset: 2px;
+  }
 `;
 
 const LogoImage = styled.img`
   height: 40px;
   width: auto;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &:focus {
+    outline: none;
+    filter: brightness(1.1);
+  }
 `;
 
 const RightSection = styled.div`
