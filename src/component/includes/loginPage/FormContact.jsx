@@ -4,12 +4,12 @@ import InputField from "./InputField";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
-function FormContact() {
+function FormContact({setUserInfo}) {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  
+
   const navigate = useNavigate();
 
   const inputFields = [
@@ -22,17 +22,19 @@ function FormContact() {
   };
 
   const handleSubmit = async () => {
+    const data = {
+      email: user.email,
+      password: user.password
+    }
     try {
-      const formData = new FormData();
-      formData.append('email', user.email);
-      formData.append('password', user.password);
-      const response = await api.post("/loginProc",formData);
-      console.log(response.data)
-      alert("로그인 성공!");
-      //alert("홈페이지로 넘어갑니다");
-      //sessionStorage.setItem("userInfo", JSON.stringify(response.data)); // sessionStorage에 id를 user_id라는 key 값으로 저장
-      navigate("/profile",{state: {userData: response.data}});
+      const response = await api.post("/users/login", data);
       console.log(response.data);
+      alert("로그인 성공!");
+      // 비밀번호를 제외한 정보만 저장
+      const { password, ...userInfo } = response.data; // 비밀번호 제외
+      sessionStorage.setItem("userInfo", JSON.stringify(userInfo)); // 예시
+      setUserInfo(userInfo); // 상태 업데이트
+      navigate("/profile");
     } catch (error) {
       console.error(error);
     }

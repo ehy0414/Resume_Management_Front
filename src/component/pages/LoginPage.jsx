@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import FormContact from "../includes/loginPage/FormContact";
 
-function LoginPage() {
+function LoginPage({setUserInfo}) {
   return (
     <StyledHeroForm>
       <Header>
         <Title>로그인</Title>
         <Subtitle>회원 정보 입력</Subtitle>
       </Header>
-      <FormContact />
+      <FormContact setUserInfo={setUserInfo}/>
     </StyledHeroForm>
   );
 }
