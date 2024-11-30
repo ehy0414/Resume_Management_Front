@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const ResumeCard = ({ name, title, description, onViewResume }) => {
+const ResumeCard = ({ name, title, description, onViewResume, skill }) => {
   const cardStyle = {
     border: '1px solid #ccc',
     borderRadius: '8px',
@@ -33,6 +33,7 @@ const ResumeCard = ({ name, title, description, onViewResume }) => {
     >
       <img style={porfilImgStyle} src={"/images/profileImage/example.png"}/>
       <h2 style={nameStyle}>{name}</h2>
+      <p>기술스택 : {skill}</p>
       <p style={descriptionStyle}>{description}</p>
     </div>
   );
