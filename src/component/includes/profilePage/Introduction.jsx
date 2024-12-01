@@ -74,7 +74,7 @@ function Introduction({ userInfo, onUpdate, isEditing, setIsEditing, formData, s
       ) : (
         <>
           <IntroTitle>{userInfo?.title}</IntroTitle>
-          <IntroText dangerouslySetInnerHTML={{ __html: userInfo?.content.replace(/\n/g, "<br />") }} />
+          <IntroText dangerouslySetInnerHTML={{ __html: userInfo?.content?.replace(/\n/g, "<br />") }} />
         </>
       )}
     </>

@@ -16,6 +16,7 @@ function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
+  const [career, setCareer] = useState([]);
 
   const getUserAllInfo = async() => {
     try{
@@ -30,6 +31,7 @@ function ProfilePage() {
   useEffect(() => {
     getUserAllInfo();
     setFormData({ ...userInfo });
+    getCareer();
   },[userId])
 
   useEffect(() => {
@@ -45,9 +47,32 @@ function ProfilePage() {
 
   const onUpdate = async(formData) => {
     console.log(formData);
+    
     try{
       const response = await api.post('/users/updateAllInfo',formData);
+      await updateCareer();
       getUserAllInfo();
+      getCareer();
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  const getCareer = async() => {
+    try{
+      const response = await api.get(`/users/getCareer/${userId}`);
+      console.log(response.data);
+      setCareer(response.data);
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  const updateCareer = async() => {
+    console.log(career);
+    try{
+      const response = await api.post("/users/updateCareer",career);
+
     }catch(error){
       console.error(error);
     }
@@ -65,9 +90,12 @@ function ProfilePage() {
         <Introduction userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} setTitle={setTitle} setContent={setContent}/>
       </section>
       <SectionTitle title="경력사항" />
-      <ContentSection isEditing={isEditing}/>
+      {/* { */}
+        {/* career && */}
+          <ContentSection isEditing={isEditing} data={career} setData={setCareer} userId={userId}/>
+      {/* } */}
       <SectionTitle title="학력사항" darkBackground />
-      <ContentSection darkBackground />
+      {/* <ContentSection darkBackground /> */}
       {/* <SectionTitle title="기타 이력사항" /> */}
       {/* <ContentSection /> */}
       <style>{`
