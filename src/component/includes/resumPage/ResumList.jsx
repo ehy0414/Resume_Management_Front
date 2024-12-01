@@ -27,6 +27,7 @@ const ResumeList = (props) => {
           onViewResume={() => alert(`${resume.name}의 이력서 보기`)} // 이력서 보기 기능
           skill = {resume.skill}
           userId={resume.userId}
+          img = {resume.profileImage}
         />
       ))}
     </div>

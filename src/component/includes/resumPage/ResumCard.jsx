@@ -2,12 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const ResumeCard = ({ key, name, title, content, skill, userId }) => {
+const ResumeCard = ({ key, name, title, content, skill, userId, img }) => {
   const navigate = useNavigate();
 
   return (
     <CardContainer onClick={() => navigate(`/profile/${userId}`)}>
-      <ProfileImage src="/images/profileImage/example.png" alt="Profile" />
+      <ProfileImage src={`http://localhost:8000/uploads/${img}`} alt="Profile" />
       <Name>{name}</Name>
       <Skill>기술스택 : {skill}</Skill>
       <Description>{content}</Description>
