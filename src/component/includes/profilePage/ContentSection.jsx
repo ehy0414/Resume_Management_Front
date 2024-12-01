@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Section = styled.section`
@@ -47,76 +47,100 @@ const EditInput = styled.input`
   padding: 8px;
 `;
 
-function ContentSection({ darkBackground, isEditing }) {
-  // 더미 경력 데이터 정의
-  const [experiences, setExperiences] = useState([
-    {
-      title: "소프트웨어 엔지니어",
-      company: "ABC 테크",
-      duration: "2021년 1월 - 현재",
-      description: "웹 애플리케이션 개발 및 유지보수."
-    },
-    {
-      title: "프론트엔드 개발자",
-      company: "XYZ 솔루션",
-      duration: "2019년 6월 - 2020년 12월",
-      description: "사용자 인터페이스 설계 및 구현."
-    },
-    {
-      title: "인턴",
-      company: "123 스타트업",
-      duration: "2018년 7월 - 2019년 5월",
-      description: "프로젝트 지원 및 문서화 작업."
-    }
-  ]);
+const AddButton = styled.button`
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #182153;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 
+  &:hover {
+    background-color: #0f1a3f;
+  }
+`;
+
+const DeleteButton = styled.button`
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #ff4d4d; /* 빨간색 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #cc0000; /* 어두운 빨간색 */
+  }
+`;
+
+function ContentSection({ darkBackground, isEditing, data, setData, userId }) {
   const handleInputChange = (index, field, value) => {
-    const updatedExperiences = [...experiences];
+    const updatedExperiences = [...data];
     updatedExperiences[index][field] = value; // 해당 필드 업데이트
-    setExperiences(updatedExperiences);
+    setData(updatedExperiences);
+  };
+
+  const addExperience = () => {
+    const newExperience = {
+      userId:userId,
+      occupation: "",
+      company: "",
+      period: "",
+      details: ""
+    };
+    setData([...data, newExperience]); // 새로운 경력 항목 추가
+  };
+
+  const deleteExperience = (index) => {
+    const updatedExperiences = data.filter((_, i) => i !== index); // 해당 인덱스 삭제
+    setData(updatedExperiences);
   };
 
   return (
     <Section darkBackground={darkBackground}>
       <ExperienceContainer>
-        {experiences.map((experience, index) => (
+        {data.map((data, index) => (
           <ExperienceItem key={index}>
             {isEditing ? (
               <>
                 <EditInput 
                   type="text" 
-                  value={experience.title} 
-                  onChange={(e) => handleInputChange(index, 'title', e.target.value)} 
+                  value={data.occupation} 
+                  onChange={(e) => handleInputChange(index, 'occupation', e.target.value)} 
                   placeholder="직업 제목" 
                 />
                 <EditInput 
                   type="text" 
-                  value={experience.company} 
+                  value={data.company} 
                   onChange={(e) => handleInputChange(index, 'company', e.target.value)} 
                   placeholder="회사명" 
                 />
                 <EditInput 
                   type="text" 
-                  value={experience.duration} 
-                  onChange={(e) => handleInputChange(index, 'duration', e.target.value)} 
+                  value={data.period} 
+                  onChange={(e) => handleInputChange(index, 'period', e.target.value)} 
                   placeholder="근무 기간" 
                 />
                 <EditInput 
                   type="text" 
-                  value={experience.description} 
-                  onChange={(e) => handleInputChange(index, 'description', e.target.value)} 
+                  value={data.details} 
+                  onChange={(e) => handleInputChange(index, 'details', e.target.value)} 
                   placeholder="설명" 
                 />
+                <DeleteButton onClick={() => deleteExperience(index)}>삭제</DeleteButton>
               </>
             ) : (
               <>
-                <ExperienceTitle>{experience.title} - {experience.company}</ExperienceTitle>
-                <ExperienceDuration>{experience.duration}</ExperienceDuration>
-                <ExperienceDescription>{experience.description}</ExperienceDescription>
+                <ExperienceTitle>{data.occupation} - {data.company}</ExperienceTitle>
+                <ExperienceDuration>{data.period}</ExperienceDuration>
+                <ExperienceDescription>{data.details}</ExperienceDescription>
               </>
             )}
           </ExperienceItem>
         ))}
+        {isEditing && <AddButton onClick={addExperience}>추가</AddButton>}
       </ExperienceContainer>
     </Section>
   );
