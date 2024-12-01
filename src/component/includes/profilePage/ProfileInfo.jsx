@@ -23,17 +23,17 @@ const EditButton = styled.button`
   display: flex;
   align-items: center;
   gap: 8px;
-  overflow: hidden;
   color: #fff;
-  white-space: nowrap;
-  justify-content: center;
-  padding: 12px;
+  padding: 12px 16px;  // 일정한 너비와 높이를 위해 padding을 조정합니다.
   font: 400 16px/1 Inter, sans-serif;
   border: 1px solid #2c2c2c;
+  min-width: 120px;  // 최소 너비를 설정하여 버튼 크기를 고정합니다.
+  text-align: center; // 텍스트 정렬
   @media (max-width: 991px) {
     white-space: initial;
   }
 `;
+
 
 const EditIcon = styled.img`
   aspect-ratio: 1;
@@ -84,6 +84,15 @@ const Input = styled.input`
 function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, title, content }) {
   // const [isEditing, setIsEditing] = useState(false);
   const [formDataState, setFormData] = useState({ ...userInfo });
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+    // localStorage에서 사용자 정보 가져오기
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserId(JSON.parse(storedUserInfo).userId); // JSON 문자열을 객체로 변환
+    }
+  }, []);
 
   useEffect(() => {
     if (isEditing) {
@@ -125,10 +134,13 @@ function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, ti
 
   return (
     <InfoContainer>
+      {
+        userId == userInfo?.userId &&
       <EditButton onClick={isEditing ? handleSubmit : handleEditClick}>
         <EditIcon loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/93b33e933c3c66f9802c61b0ad6d40a5d5c06db07b7a1a9bcf6e86c31dc0fdb8?placeholderIfAbsent=true&apiKey=c7f1d91a917e4e2ba5370da6919a77db" alt="Edit" />
         {isEditing ? "저장하기" : "수정하기"}
       </EditButton>
+      }
       {isEditing ? (
         <form onSubmit={handleSubmit}>
           <Input
