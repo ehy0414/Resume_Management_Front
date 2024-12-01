@@ -110,6 +110,7 @@ function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, ti
     updatedData.append('address', formDataState.address);
     updatedData.append('github', formDataState.github);
     updatedData.append('skill', formDataState.skill);
+    updatedData.append('age', formDataState.age);
     updatedData.append('title',  title);
     updatedData.append('content', content);
     updatedData.append('profileImage', userInfo?.profileImage);
@@ -136,6 +137,13 @@ function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, ti
             value={formDataState.name}
             onChange={handleChange}
             placeholder="이름"
+          />
+          <Input
+            type="text"
+            name="age"
+            value={formDataState.age}
+            onChange={handleChange}
+            placeholder="나이"
           />
           <Input
             type="text"
@@ -182,7 +190,7 @@ function ProfileInfo({ userInfo, onUpdate, isEditing, setIsEditing, formData, ti
         </form>
       ) : (
         <>
-          <Name>{userInfo?.name}</Name>
+          <Name>{userInfo?.name} {userInfo?.age && ("("+userInfo?.age+")")}</Name>
           <JobTitle>{userInfo?.desiredJob}</JobTitle>
           <ContactInfo>
             전화번호 <br />
