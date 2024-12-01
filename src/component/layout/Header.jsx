@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 
-function Header({userInfo, setUserInfo}) {
+function Header({ userInfo, setUserInfo }) {
   const navigate = useNavigate();
-  
+
   const navigationItems = [
     { path: "/resume", text: "이력서보기" },
     { path: `/profile/${userInfo?.userId}`, text: "개인페이지" },
@@ -12,7 +12,7 @@ function Header({userInfo, setUserInfo}) {
 
   const authButtons = [
     { variant: "secondary", text: "로그인", path: "/login" },
-    
+
     { variant: "primary", text: "회원가입", path: "/join" },
   ];
 
@@ -26,21 +26,34 @@ function Header({userInfo, setUserInfo}) {
   return (
     <HeaderWrapper>
       <LogoContainer to="/">
-        <LogoImage alt="Home" 
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/6adb87bcda0e0209efe8943f42ac571aa849fac731b86711b7732f9cf97ec1c2?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c"
+        <LogoImage alt="Home"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6adb87bcda0e0209efe8943f42ac571aa849fac731b86711b7732f9cf97ec1c2?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c"
         />
       </LogoContainer>
       <RightSection>
         <NavList>
-          {navigationItems.map((item, index) => (
+          {/* {navigationItems.map((item, index) => (
             <NavItem key={index}>
               <NavLink to={item.path}>{item.text}</NavLink>
             </NavItem>
-          ))}
+          ))} */}
+          {navigationItems.map((item, index) => {
+            // userInfo가 없고 인덱스가 1인 경우 렌더링하지 않음
+            if (!userInfo && index === 1) {
+              return null; // 아무것도 렌더링하지 않음
+            }
+
+            return (
+              <NavItem key={index}>
+                <NavLink to={item.path}>{item.text}</NavLink>
+              </NavItem>
+            );
+          })}
+
         </NavList>
 
         <AuthButtonGroup>
-          {userInfo==null ?
+          {userInfo == null ?
             (authButtons.map((button, index) => (
               <AuthButton
                 key={index}
