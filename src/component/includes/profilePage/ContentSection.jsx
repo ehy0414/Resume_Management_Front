@@ -84,7 +84,7 @@ function ContentSection({ darkBackground, isEditing, data, setData, userId }) {
 
   const addExperience = () => {
     const newExperience = {
-      userId:userId,
+      userId: userId,
       occupation: "",
       company: "",
       period: "",
@@ -105,37 +105,50 @@ function ContentSection({ darkBackground, isEditing, data, setData, userId }) {
           <ExperienceItem key={index}>
             {isEditing ? (
               <>
-                <EditInput 
-                  type="text" 
-                  value={data.occupation} 
-                  onChange={(e) => handleInputChange(index, 'occupation', e.target.value)} 
-                  placeholder="직업 제목" 
+                {data?.occupation &&
+                  <EditInput
+                    type="text"
+                    value={data.occupation}
+                    onChange={(e) => handleInputChange(index, 'occupation', e.target.value)}
+                    placeholder="직업 제목"
+                  />
+                }
+
+                <EditInput
+                  type="text"
+                  value={data.company}
+                  onChange={(e) => handleInputChange(index, 'company', e.target.value)}
+                  placeholder="회사명"
                 />
-                <EditInput 
-                  type="text" 
-                  value={data.company} 
-                  onChange={(e) => handleInputChange(index, 'company', e.target.value)} 
-                  placeholder="회사명" 
+                <EditInput
+                  type="text"
+                  value={data.period}
+                  onChange={(e) => handleInputChange(index, 'period', e.target.value)}
+                  placeholder="근무 기간"
                 />
-                <EditInput 
-                  type="text" 
-                  value={data.period} 
-                  onChange={(e) => handleInputChange(index, 'period', e.target.value)} 
-                  placeholder="근무 기간" 
-                />
-                <EditInput 
-                  type="text" 
-                  value={data.details} 
-                  onChange={(e) => handleInputChange(index, 'details', e.target.value)} 
-                  placeholder="설명" 
-                />
+                {data?.details &&
+                  <EditInput
+                    type="text"
+                    value={data.details}
+                    onChange={(e) => handleInputChange(index, 'details', e.target.value)}
+                    placeholder="설명"
+                  />
+                }
+
                 <DeleteButton onClick={() => deleteExperience(index)}>삭제</DeleteButton>
               </>
             ) : (
               <>
-                <ExperienceTitle>{data.occupation} - {data.company}</ExperienceTitle>
+                {data?.occupation ?
+                  <ExperienceTitle>{data.occupation} - {data.company}</ExperienceTitle> :
+                  <ExperienceTitle>{data.company}</ExperienceTitle>
+                }
+                {/* <ExperienceTitle>{data.occupation} - {data.company}</ExperienceTitle> */}
                 <ExperienceDuration>{data.period}</ExperienceDuration>
-                <ExperienceDescription>{data.details}</ExperienceDescription>
+                {data?.occupation &&
+                  <ExperienceDescription>{data.details}</ExperienceDescription>
+                }
+                {/* <ExperienceDescription>{data.details}</ExperienceDescription> */}
               </>
             )}
           </ExperienceItem>

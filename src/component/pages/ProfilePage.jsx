@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 // import styled from "styled-components";
 import ProfileHeader from "../includes/profilePage/ProfileHeader";
 // import ProfileInfo from "../includes/profilePage/ProfileInfo";
-import SocialLinks from "../includes/profilePage/SocialLinks";
-import Introduction from "../includes/profilePage/Introduction";
-import SectionTitle from "../includes/profilePage/SectionTitle";
-import ContentSection from "../includes/profilePage/ContentSection";
 import { useParams } from 'react-router-dom';
 import api from "../api/axios";
+import ContentSection from "../includes/profilePage/ContentSection";
+import Introduction from "../includes/profilePage/Introduction";
+import SectionTitle from "../includes/profilePage/SectionTitle";
 
 function ProfilePage() {
   const { userId } = useParams();
@@ -17,6 +16,7 @@ function ProfilePage() {
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [career, setCareer] = useState([]);
+  const [education, setEducation] = useState([]);
 
   const getUserAllInfo = async() => {
     try{
@@ -32,6 +32,7 @@ function ProfilePage() {
     getUserAllInfo();
     setFormData({ ...userInfo });
     getCareer();
+    getEducation();
   },[userId])
 
   useEffect(() => {
@@ -51,8 +52,10 @@ function ProfilePage() {
     try{
       const response = await api.post('/users/updateAllInfo',formData);
       await updateCareer();
+      await updateEducation();
       getUserAllInfo();
       getCareer();
+      getEducation();
     }catch(error){
       console.error(error);
     }
@@ -78,6 +81,26 @@ function ProfilePage() {
     }
   }
 
+  const getEducation = async() => {
+    try{
+      const response = await api.get(`/users/getEducation/${userId}`);
+      console.log(response.data);
+      setEducation(response.data);
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  const updateEducation = async() => {
+    console.log(career);
+    try{
+      const response = await api.post("/users/updateEducation",education);
+
+    }catch(error){
+      console.error(error);
+    }
+  }
+
   return (
     <main className="profile-page">
 
@@ -90,14 +113,11 @@ function ProfilePage() {
         <Introduction userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} setTitle={setTitle} setContent={setContent}/>
       </section>
       <SectionTitle title="경력사항" />
-      {/* { */}
-        {/* career && */}
           <ContentSection isEditing={isEditing} data={career} setData={setCareer} userId={userId}/>
-      {/* } */}
       <SectionTitle title="학력사항" darkBackground />
       {/* <ContentSection darkBackground /> */}
       {/* <SectionTitle title="기타 이력사항" /> */}
-      {/* <ContentSection /> */}
+      <ContentSection isEditing={isEditing} data={education} setData={setEducation} userId={userId}/>
       <style>{`
         .profile-page {
           background-color: #fff;
