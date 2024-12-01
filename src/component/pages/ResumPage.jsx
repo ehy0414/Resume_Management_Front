@@ -15,16 +15,31 @@ function ResumPage() {
   }, []);
 
   // 검색 필터링
+  // useEffect(() => {
+  //   const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  //   const filtered = resume.filter(
+  //     (item) =>
+  //       item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+  //       (Array.isArray(item.skill) &&
+  //         item.skill.some((skill) =>
+  //           skill.toLowerCase().includes(lowerCaseSearchTerm)
+  //         ))
+  //   );
+  //   console.log(lowerCaseSearchTerm);
+  //   console.log(filtered);
+  //   setFilteredResume(filtered); // 필터링된 데이터 저장
+  //   setCurrentPage(1); // 검색 시 첫 페이지로 리셋
+  // }, [searchTerm, resume]);
+
   useEffect(() => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const filtered = resume.filter(
-      (item) =>
-        item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-        (Array.isArray(item.skills) &&
-          item.skills.some((skill) =>
-            skill.toLowerCase().includes(lowerCaseSearchTerm)
-          ))
+    const filtered = resume.filter((item) =>
+      item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      (item.skill && item.skill.toLowerCase().includes(lowerCaseSearchTerm)) // skill이 문자열인 경우
     );
+    
+    console.log(lowerCaseSearchTerm);
+    console.log(filtered);
     setFilteredResume(filtered); // 필터링된 데이터 저장
     setCurrentPage(1); // 검색 시 첫 페이지로 리셋
   }, [searchTerm, resume]);
