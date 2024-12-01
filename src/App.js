@@ -8,6 +8,7 @@ import JoinPage from './component/pages/JoinPage';
 import LoginPage from './component/pages/LoginPage';
 import ProfilePage from './component/pages/ProfilePage';
 import ResumPage from './component/pages/ResumPage';
+import HomePage from "./component/pages/HomePage";
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -34,11 +35,12 @@ function App() {
     <BrowserRouter>
        <Header userInfo={userInfo} setUserInfo={handleLogout} />
       <Routes>
-        <Route path="/" element={<LoginPage setUserInfo={handleLogin}/>}></Route>
+        <Route path="/login" element={<LoginPage setUserInfo={handleLogin}/>}></Route>
         <Route path="/join" element={<JoinPage />}></Route>
         <Route path="/board" element={<UserBoardPage />}></Route>
         <Route path="/profile/:userId" element={<ProfilePage />}></Route>
         <Route path="/resume" element={<ResumPage />}></Route>
+        <Route path="/" element={<HomePage />} />
         
       </Routes>
       <Footer/>

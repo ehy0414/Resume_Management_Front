@@ -11,7 +11,7 @@ function Header({userInfo, setUserInfo}) {
   ];
 
   const authButtons = [
-    { variant: "secondary", text: "로그인", path: "/" },
+    { variant: "secondary", text: "로그인", path: "/login" },
     
     { variant: "primary", text: "회원가입", path: "/join" },
   ];
@@ -25,7 +25,7 @@ function Header({userInfo, setUserInfo}) {
 
   return (
     <HeaderWrapper>
-      <LogoContainer to="/home">
+      <LogoContainer to="/">
         <LogoImage alt="Home" 
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/6adb87bcda0e0209efe8943f42ac571aa849fac731b86711b7732f9cf97ec1c2?placeholderIfAbsent=true&apiKey=7adddd5587f24b91884c2915be4df62c"
         />

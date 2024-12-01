@@ -15,13 +15,14 @@ function FormContact() {
   const [emailError, setEmailError] = useState(""); // 이메일 오류 상태
   const [passwordError, setPasswordError] = useState(""); // 비밀번호 오류 상태
   const [passwordStrength, setPasswordStrength] = useState(""); // 비밀번호 강도
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(""); // 비밀번호 확인 오류 메시지 상태
   const navigate = useNavigate();
 
   const inputFields = [
     { key: "name", label: "이름", type: "text", holder: "이름을 입력해주세요" },
     { key: "email", label: "이메일", type: "email", holder: "이메일을 입력해주세요", errorMessage: emailError },
     { key: "password", label: "비밀번호", type: "password", holder: "비밀번호를 입력해주세요", errorMessage: passwordError },
-    { key: "confirmPassword", label: "비밀번호 재입력", type: "password", holder: "비밀번호를 재입력해주세요" },
+    { key: "confirmPassword", label: "비밀번호 재입력", type: "password", holder: "비밀번호를 재입력해주세요", errorMessage: passwordConfirmMessage },
   ];
 
   const handleChange = (key, value) => {
@@ -35,6 +36,11 @@ function FormContact() {
     // 비밀번호가 변경될 때마다 강도 검사
     if (key === "password") {
       validatePassword(value);
+    }
+
+    // 비밀번호 확인 입력이 변경될 때마다 확인 유효성 검사
+    if (key === "confirmPassword") {
+      validatePasswordConfirm(value);
     }
   };
 
@@ -50,10 +56,10 @@ function FormContact() {
 
   // 비밀번호 강도 검사 함수
   const validatePassword = (password) => {
-    const regexWeak = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/; // 최소 6자리, 숫자 및 문자 포함
+    const regexWeak = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/; // 최소 6자리,특수문자 포함 숫자 및 문자 포함
     const regexStrong = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/; // 특수문자 포함 8자리 이상
     if (!regexWeak.test(password)) {
-      setPasswordError("비밀번호는 최소 6자리 이상의 문자와 숫자를 포함해야 합니다.");
+      setPasswordError("최소 6자리 이상의 문자+숫자+특수문자를 포함");
       setPasswordStrength("비밀번호가 약합니다.");
     } else if (regexStrong.test(password)) {
       setPasswordError(""); // 강할 경우 에러 없애기
@@ -61,6 +67,15 @@ function FormContact() {
     } else {
       setPasswordError("");
       setPasswordStrength("비밀번호가 보통입니다.");
+    }
+  };
+
+  // 비밀번호 확인 유효성 검사 함수
+  const validatePasswordConfirm = (confirmPassword) => {
+    if (formData.password !== confirmPassword) {
+      setPasswordConfirmMessage("비밀번호가 일치하지 않습니다.");
+    } else {
+      setPasswordConfirmMessage("비밀번호가 일치합니다.");
     }
   };
 
@@ -188,12 +203,13 @@ const ErrorMessage = styled.div`
   color: red;
   font-size: 12px;
   margin-top: -25px;
+  margin-bottom: 20px;
 `;
 
 const StrengthMessage = styled.div`
   color: ${(props) => (props.children.includes("안전") ? "green" : "orange")};
   font-size: 12px;
-  margin-top: 1px;
+  margin-top: -25px;
 `;
 
 export default FormContact;
