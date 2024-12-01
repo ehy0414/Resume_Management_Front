@@ -28,6 +28,7 @@ const ResumeList = (props) => {
           skill = {resume.skill}
           userId={resume.userId}
           img = {resume.profileImage}
+          age = {resume.age}
         />
       ))}
     </div>

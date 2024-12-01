@@ -107,9 +107,8 @@ function ProfilePage() {
 
       <ProfileHeader userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} title={title} content={content}/>
 
-
       <section className="introduction-section">
-        {/* <SocialLinks /> */}
+        {/* <SocialLinks /> */}<br/>
         <Introduction userInfo={userInfo} formData={formData} setFormData={setFormData} handleChange={handleChange} onUpdate={onUpdate} isEditing={isEditing} setIsEditing={setIsEditing} setTitle={setTitle} setContent={setContent}/>
       </section>
       <SectionTitle title="경력사항" />
@@ -128,7 +127,6 @@ function ProfilePage() {
         .introduction-section {
           background-color: #f1f1f1;
           display: flex;
-          min-height: 504px;
           width: 100%;
           flex-direction: column;
           overflow: hidden;

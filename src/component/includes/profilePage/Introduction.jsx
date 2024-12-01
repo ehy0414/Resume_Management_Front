@@ -14,7 +14,6 @@ const IntroText = styled.p`
     max-width: 100%;
   }
   width: 1000px;
-  height: 1000px;
 `;
 
 const Input = styled.input`
